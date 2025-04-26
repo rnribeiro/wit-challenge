@@ -1,9 +1,8 @@
 package com.example.rest.service;
 
-import com.example.common.exceptions.Error;
+import com.example.common.error.DefaultErrors;
 import com.example.common.model.CalculationRequest;
 import com.example.common.model.CalculationResponse;
-import com.example.common.exceptions.InvalidOperandException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,18 +62,16 @@ public class CalculatorService {
         try {
             request.setA(new java.math.BigDecimal(a));
         } catch (NumberFormatException e) {
-            logger.error("Invalid input for a: {}. Error: {}", a, e.getMessage());
-            CalculationResponse response = new CalculationResponse(Error.INVALID_OPERAND);
-            response.setRequestId(requestId);
+            logger.error("Invalid input for a: {}.", a);
+            CalculationResponse response = new CalculationResponse(requestId, DefaultErrors.INVALID_OPERAND);
             response.getError().setMessage("Invalid input for a: " + a);
             return response;
         }
         try {
             request.setB(new java.math.BigDecimal(b));
         } catch (NumberFormatException e) {
-            logger.error("Invalid input for b: {}. Error: {}", b, e.getMessage());
-            CalculationResponse response = new CalculationResponse(Error.INVALID_OPERAND);
-            response.setRequestId(requestId);
+            logger.error("Invalid input for b: {}.", b);
+            CalculationResponse response = new CalculationResponse(requestId, DefaultErrors.INVALID_OPERAND);
             response.getError().setMessage("Invalid input for b: " + b);
             return response;
 

@@ -1,24 +1,40 @@
 package com.example.common.model;
 
-import com.example.common.exceptions.Error;
+import com.example.common.error.Error;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CalculationResponse {
+
     private UUID requestId;
     private BigDecimal result;
     private Error error;
 
-    public CalculationResponse() {}
+    /**
+     * Default constructor for JSON deserialization.
+     */
+    public CalculationResponse() {  }
 
-    public CalculationResponse(BigDecimal result) {
+    public CalculationResponse(UUID requestId, BigDecimal result) {
+        this.requestId = requestId;
         this.result = result;
     }
 
-    public CalculationResponse(Error error) {
+    public CalculationResponse(UUID requestId, Error error) {
+        this.requestId = requestId;
         this.error = error;
+    }
+
+    public ResponseEntity<CalculationResponse> toResponseEntity() {
+        if (error != null) {
+            return ResponseEntity.status(error.getHttpStatus()).body(this);
+        } else {
+            return ResponseEntity.ok(this);
+        }
     }
 
     // Getters and Setters
@@ -28,14 +44,6 @@ public class CalculationResponse {
     public void setResult(BigDecimal result) { this.result = result; }
     public Error getError() { return error; }
     public void setError(Error error) { this.error = error; }
-
-    public ResponseEntity<CalculationResponse> toResponseEntity() {
-        if (error != null) {
-            return ResponseEntity.status(error.getHttpStatus()).body(this);
-        } else {
-            return ResponseEntity.ok(this);
-        }
-    }
 
 }
 
