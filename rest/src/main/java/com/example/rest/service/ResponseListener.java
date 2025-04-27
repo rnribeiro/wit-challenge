@@ -42,10 +42,10 @@ public class ResponseListener {
      */
     @KafkaListener(topics = "${spring.kafka.topic.response-topic}", groupId = "${spring.kafka.consumer.group-id}")
     public void listen(CalculationResponse response) {
-        logger.info("Received response for requestId: {}", response.getRequestId());
         CompletableFuture<CalculationResponse> future = futures.remove(response.getRequestId());
         if (future != null) {
             future.complete(response);
         }
+        logger.info("Received response from calculator module for request [ID={}]}", response.getRequestId());
     }
 }

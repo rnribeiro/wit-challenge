@@ -35,8 +35,7 @@ public class CalculatorController {
             @RequestParam String a,
             @RequestParam String b) {
         String requestId = MDC.get("requestId");
-        System.out.println(requestId);
-        logger.info("Received sum request with a={} and b={}", a, b);
+        logRequest("sum", a, b, requestId);
         CalculationResponse response = calculatorService.calculate("sum", a, b, UUID.fromString(requestId));
         return response.toResponseEntity();
     }
@@ -46,7 +45,7 @@ public class CalculatorController {
             @RequestParam String a,
             @RequestParam String b) {
         String requestId = MDC.get("requestId");
-        logger.info("Received subtraction request with a={} and b={}", a, b);
+        logRequest("subtraction", a, b, requestId);
         CalculationResponse response = calculatorService.calculate("subtraction", a, b, UUID.fromString(requestId));
         return response.toResponseEntity();
     }
@@ -56,7 +55,7 @@ public class CalculatorController {
             @RequestParam String a,
             @RequestParam String b) {
         String requestId = MDC.get("requestId");
-        logger.info("Received multiplication request with a={} and b={}", a, b);
+        logRequest("multiplication", a, b, requestId);
         CalculationResponse response = calculatorService.calculate("multiplication", a, b, UUID.fromString(requestId));
         return response.toResponseEntity();
     }
@@ -66,8 +65,12 @@ public class CalculatorController {
             @RequestParam String a,
             @RequestParam String b) {
         String requestId = MDC.get("requestId");
-        logger.info("Received division request with a={} and b={}", a, b);
+        logRequest("division", a, b, requestId);
         CalculationResponse response = calculatorService.calculate("division", a, b, UUID.fromString(requestId));
         return response.toResponseEntity();
+    }
+
+    private void logRequest(String operation, String a, String b, String requestId) {
+        logger.info("New request received [ID={}]. Operation: {}, a: {}, b: {}", requestId, operation, a, b);
     }
 }

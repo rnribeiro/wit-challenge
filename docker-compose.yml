@@ -20,17 +20,30 @@ services:
 
       # Required for a single node cluster
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - app-network
 
   rest:
     build: ./rest
     container_name: rest-app
     depends_on:
-      - kafka
+      kafka:
+          condition: service_started
     ports:
       - "8080:8080"
+    networks:
+      - app-network
 
   calculator:
     build: ./calculator
     container_name: calculator-app
     depends_on:
-      - kafka
+      kafka:
+          condition: service_started
+    networks:
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge

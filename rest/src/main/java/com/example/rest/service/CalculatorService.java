@@ -52,7 +52,7 @@ public class CalculatorService {
      * @return the calculation response
      */
     public CalculationResponse calculate(String operation, String a, String b, UUID requestId) {
-        logger.info("Processing {} with a={} and b={}", operation, a, b);
+//        logger.info("Processing {} with a={} and b={}", operation, a, b);
 
         // Create a new CalculationRequest object
         CalculationRequest request = new CalculationRequest();
@@ -62,7 +62,7 @@ public class CalculatorService {
         try {
             request.setA(new java.math.BigDecimal(a));
         } catch (NumberFormatException e) {
-            logger.error("Invalid input for a: {}.", a);
+//            logger.error("Invalid input for a: {}.", a);
             CalculationResponse response = new CalculationResponse(requestId, DefaultErrors.INVALID_OPERAND);
             response.getError().setMessage("Invalid input for a: " + a);
             return response;
@@ -70,7 +70,7 @@ public class CalculatorService {
         try {
             request.setB(new java.math.BigDecimal(b));
         } catch (NumberFormatException e) {
-            logger.error("Invalid input for b: {}.", b);
+//            logger.error("Invalid input for b: {}.", b);
             CalculationResponse response = new CalculationResponse(requestId, DefaultErrors.INVALID_OPERAND);
             response.getError().setMessage("Invalid input for b: " + b);
             return response;
@@ -82,7 +82,7 @@ public class CalculatorService {
         kafkaTemplate.send(requestTopic, requestId.toString(), request)
                 .whenComplete((result, ex) -> {
                     if (ex == null) {
-                        logger.info("Sent calculation request: {}", requestId);
+                        logger.info("Sent request [ID={}] to calculator module.", requestId);
                     } else {
                         logger.error("Failed to send calculation request: {}", requestId, ex);
                         future.completeExceptionally(ex);
@@ -91,11 +91,9 @@ public class CalculatorService {
 
 
         try {
-            CalculationResponse response = future.get(10, java.util.concurrent.TimeUnit.SECONDS);
-            logger.info("Received result for {}: {}", requestId, response.getResult());
-            return response;
+            return future.get(10, java.util.concurrent.TimeUnit.SECONDS);
         } catch (Exception e) {
-            logger.error("Error processing calculation for {}: {}", requestId, e.getMessage());
+            logger.error("Error getting response from calculator module for request [ID={}]: {}", requestId, e.getMessage());
             throw new RuntimeException("Calculation failed", e);
         }
     }

@@ -66,6 +66,7 @@ public class KafkaConfig {
         configProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         configProps.put(ConsumerConfig.GROUP_ID_CONFIG, consumerGroup);
         configProps.put(JsonDeserializer.TRUSTED_PACKAGES, "com.example.common.model");
+        configProps.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         return new DefaultKafkaConsumerFactory<>(configProps);
     }
 

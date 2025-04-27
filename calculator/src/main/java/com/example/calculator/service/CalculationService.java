@@ -12,22 +12,21 @@ import java.math.RoundingMode;
 @Service
 public class CalculationService {
 
-    private static final Logger logger = LoggerFactory.getLogger(CalculationService.class);
+//    private static final Logger logger = LoggerFactory.getLogger(CalculationService.class);
 
-    public CalculationResponse calculate(CalculationRequest request) {
-        logger.info("Calculating {} with a={} and b={}", request.getOperation(), request.getA(), request.getB());
-        BigDecimal result = switch (request.getOperation().toLowerCase()) {
+    public BigDecimal calculate(CalculationRequest request) {
+//        logger.info("Calculating {} with a={} and b={}", request.getOperation(), request.getA(), request.getB());
+        return switch (request.getOperation().toLowerCase()) {
             case "sum" -> request.getA().add(request.getB());
             case "subtraction" -> request.getA().subtract(request.getB());
             case "multiplication" -> request.getA().multiply(request.getB());
             case "division" -> request.getA().divide(request.getB(), 10, RoundingMode.HALF_UP);
             default -> {
-                logger.error("Invalid operation: {} for requestId: {}", request.getOperation(), request.getRequestId());
+//                logger.error("Invalid operation: {} for requestId: {}", request.getOperation(), request.getRequestId());
                 throw new IllegalArgumentException("Invalid operation");
             }
         };
 
-        logger.info("Result for requestId {}: {}", request.getRequestId(), result);
-        return new CalculationResponse(request.getRequestId(), result);
+//        logger.info("Result for requestId {}: {}", request.getRequestId(), result);
     }
 }
