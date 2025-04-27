@@ -19,6 +19,7 @@ repositories {
 
 dependencies {
     implementation project(':common')
+    implementation project(':calculator')
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.kafka:spring-kafka'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

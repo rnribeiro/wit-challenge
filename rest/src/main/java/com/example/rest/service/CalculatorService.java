@@ -52,7 +52,6 @@ public class CalculatorService {
      * @return the calculation response
      */
     public CalculationResponse calculate(String operation, String a, String b, UUID requestId) {
-//        logger.info("Processing {} with a={} and b={}", operation, a, b);
 
         // Create a new CalculationRequest object
         CalculationRequest request = new CalculationRequest();
@@ -62,7 +61,6 @@ public class CalculatorService {
         try {
             request.setA(new java.math.BigDecimal(a));
         } catch (NumberFormatException e) {
-//            logger.error("Invalid input for a: {}.", a);
             CalculationResponse response = new CalculationResponse(requestId, DefaultErrors.INVALID_OPERAND);
             response.getError().setMessage("Invalid input for a: " + a);
             return response;
@@ -70,7 +68,6 @@ public class CalculatorService {
         try {
             request.setB(new java.math.BigDecimal(b));
         } catch (NumberFormatException e) {
-//            logger.error("Invalid input for b: {}.", b);
             CalculationResponse response = new CalculationResponse(requestId, DefaultErrors.INVALID_OPERAND);
             response.getError().setMessage("Invalid input for b: " + b);
             return response;
@@ -94,7 +91,9 @@ public class CalculatorService {
             return future.get(10, java.util.concurrent.TimeUnit.SECONDS);
         } catch (Exception e) {
             logger.error("Error getting response from calculator module for request [ID={}]: {}", requestId, e.getMessage());
-            throw new RuntimeException("Calculation failed", e);
+            CalculationResponse res = new CalculationResponse(requestId, DefaultErrors.INTERNAL_SERVER_ERROR);
+            res.getError().setMessage(String.format("Error getting response from calculator module for request [ID=%s]: %s", requestId, e.getMessage()));
+            return res;
         }
     }
 }

@@ -2,7 +2,6 @@ package com.example.calculator;
 
 import com.example.calculator.service.CalculationService;
 import com.example.common.model.CalculationRequest;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @EmbeddedKafka
-class CalculatorServiceTests {
+class CalculationServiceTests {
 
     private static CalculationService calculatorService;
     private static CalculationRequest request;
@@ -27,9 +26,6 @@ class CalculatorServiceTests {
          request.setA(new BigDecimal(5));
          request.setB(new BigDecimal(3));
     }
-
-
-
 
     @Test
     void validSumTest() {

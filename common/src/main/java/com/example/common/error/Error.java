@@ -13,6 +13,7 @@ public class Error {
     @JsonProperty("message")
     private String message;
 
+    // Default constructor for serialization
     public Error() {
     }
 
@@ -39,4 +40,5 @@ public class Error {
     public ErrorCode getCode() {
         return code;
     }
+
 }

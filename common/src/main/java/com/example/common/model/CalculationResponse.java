@@ -14,9 +14,7 @@ public class CalculationResponse {
     private BigDecimal result;
     private Error error;
 
-    /**
-     * Default constructor for JSON deserialization.
-     */
+    // Default constructor for JSON deserialization.
     public CalculationResponse() {  }
 
     public CalculationResponse(UUID requestId, BigDecimal result) {
@@ -29,6 +27,7 @@ public class CalculationResponse {
         this.error = error;
     }
 
+    // Create HTTP response
     public ResponseEntity<CalculationResponse> toResponseEntity() {
         if (error != null) {
             return ResponseEntity.status(error.getHttpStatus()).body(this);
@@ -43,7 +42,6 @@ public class CalculationResponse {
     public BigDecimal getResult() { return result; }
     public void setResult(BigDecimal result) { this.result = result; }
     public Error getError() { return error; }
-    public void setError(Error error) { this.error = error; }
 
 }
 

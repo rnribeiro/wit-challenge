@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @EmbeddedKafka
-class CalculatorControllerTest {
+class CalculatorControllerTests {
 
     private MockMvc mockMvc;
 

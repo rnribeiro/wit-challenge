@@ -23,23 +23,14 @@ public class ResponseListener {
     // Map to store CompletableFuture associated with request IDs
     private final Map<UUID, CompletableFuture<CalculationResponse>> futures = new ConcurrentHashMap<>();
 
-    /**
-     * Creates a CompletableFuture for the given request ID and stores it in the futures map.
-     *
-     * @param requestId the request ID
-     * @return a CompletableFuture for the calculation response
-     */
+    // Creates a CompletableFuture for the given request ID and stores it in the futures map.
     public CompletableFuture<CalculationResponse> createFuture(UUID requestId) {
         CompletableFuture<CalculationResponse> future = new CompletableFuture<>();
         futures.put(requestId, future);
         return future;
     }
 
-    /**
-     * Listens for calculation responses from Kafka and completes the corresponding CompletableFuture.
-     *
-     * @param response the calculation response
-     */
+    // Listens for calculation responses from Kafka and completes the corresponding CompletableFuture.
     @KafkaListener(topics = "${spring.kafka.topic.response-topic}", groupId = "${spring.kafka.consumer.group-id}")
     public void listen(CalculationResponse response) {
         CompletableFuture<CalculationResponse> future = futures.remove(response.getRequestId());
