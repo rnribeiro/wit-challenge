@@ -1,4 +1,4 @@
-# Calculator RESTful Api
+# Calculator RESTful API
 
 ## Description
 
