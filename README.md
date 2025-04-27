@@ -16,15 +16,22 @@ It contains three modules:
 The project uses Docker and Docker Compose for containerization and orchestration. It also uses Gradle as the build
 tool.
 
-1. To build the project, run the following command in the root directory of the project:
+1. Clone the project:
+   ```bash
+   git clone https://github.com/rnribeiro/wit-challenge.git
+   ```
+
+2. To build the project, run the following command in the root directory of the project:
    ```bash
    .\gradlew clean build
    ```
+
    To build without tests, use:
+
    ```bash
     .\gradlew clean build -x test
     ```
-2. To run the project, use the following command:
+3. To run the project, use the following command:
    ```bash
     docker-compose up --build
     ```
@@ -41,7 +48,8 @@ The API provides the following endpoints for basic arithmetic operations:
 - **Multiplication**: `GET /multiplication?a={num1}&b={num2}`
 - **Division**: `GET /division?a={num1}&b={num2}`
 
-`num1` and `num2` are the numbers to be used in the operation. The API will return the result of the operation in JSON format.
+`num1` and `num2` are the numbers to be used in the operation. The API will return the result of the operation in JSON
+format.
 In case of an error (e.g., division by zero, invalid operand input), the API will return an error message.
 
 
