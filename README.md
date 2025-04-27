@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a simple calculator RESTful API built with Spring Boot. It provides endpoints for basic arithmetic operations:
+This is a simple calculator RESTful API built with Spring Boot and Kafka for inter-module communication. It provides endpoints for basic arithmetic operations:
 addition, subtraction, multiplication, and division.
 
 It contains three modules:
