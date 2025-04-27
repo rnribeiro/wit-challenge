@@ -3,6 +3,7 @@ package com.example.calculator;
 import com.example.calculator.service.CalculationService;
 import com.example.common.model.CalculationRequest;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.test.context.EmbeddedKafka;
@@ -17,24 +18,23 @@ import static org.junit.jupiter.api.Assertions.*;
 class CalculatorServiceTests {
 
     private static CalculationService calculatorService;
+    private static CalculationRequest request;
 
-    @BeforeAll
-    static void setUp() {
+    @BeforeEach
+    void setUp() {
          calculatorService = new CalculationService();
+         request = new CalculationRequest();
+         request.setA(new BigDecimal(5));
+         request.setB(new BigDecimal(3));
     }
+
+
 
 
     @Test
     void validSumTest() {
 
-        String operation = "sum";
-        BigDecimal a = new BigDecimal(5);
-        BigDecimal b = new BigDecimal(3);
-        CalculationRequest request = new CalculationRequest();
-        request.setOperation(operation);
-        request.setA(a);
-        request.setB(b);
-
+        request.setOperation("sum");
         BigDecimal result = calculatorService.calculate(request);
         assertNotNull(result);
         assertEquals(new BigDecimal(8), result);
@@ -44,14 +44,7 @@ class CalculatorServiceTests {
     @Test
     void validSubtractionTest() {
 
-        String operation = "subtraction";
-        BigDecimal a = new BigDecimal(5);
-        BigDecimal b = new BigDecimal(3);
-        CalculationRequest request = new CalculationRequest();
-        request.setOperation(operation);
-        request.setA(a);
-        request.setB(b);
-
+        request.setOperation("subtraction");
         BigDecimal result = calculatorService.calculate(request);
         assertNotNull(result);
         assertEquals(new BigDecimal(2), result);
@@ -61,14 +54,7 @@ class CalculatorServiceTests {
     @Test
     void validMultiplicationTest() {
 
-        String operation = "multiplication";
-        BigDecimal a = new BigDecimal(5);
-        BigDecimal b = new BigDecimal(3);
-        CalculationRequest request = new CalculationRequest();
-        request.setOperation(operation);
-        request.setA(a);
-        request.setB(b);
-
+        request.setOperation("multiplication");
         BigDecimal result = calculatorService.calculate(request);
         assertNotNull(result);
         assertEquals(new BigDecimal(15), result);
@@ -78,31 +64,18 @@ class CalculatorServiceTests {
     @Test
     void validDivisionTest() {
 
-        String operation = "division";
-        BigDecimal a = new BigDecimal(10);
-        BigDecimal b = new BigDecimal(4);
-        CalculationRequest request = new CalculationRequest();
-        request.setOperation(operation);
-        request.setA(a);
-        request.setB(b);
-
+        request.setOperation("division");
         BigDecimal result = calculatorService.calculate(request);
         assertNotNull(result);
-        assertEquals(new BigDecimal("2.5").setScale(10, RoundingMode.HALF_UP), result);
+        assertEquals(BigDecimal.valueOf(5.0 / 3).setScale(10, RoundingMode.HALF_UP), result);
 
     }
 
     @Test
     void zeroDivisionTest() {
 
-        String operation = "division";
-        BigDecimal a = new BigDecimal(5);
-        BigDecimal b = new BigDecimal(0);
-        CalculationRequest request = new CalculationRequest();
-        request.setOperation(operation);
-        request.setA(a);
-        request.setB(b);
-
+        request.setOperation("division");
+        request.setB(BigDecimal.ZERO);
         assertThrowsExactly(ArithmeticException.class, () -> calculatorService.calculate(request));
 
     }
@@ -110,13 +83,7 @@ class CalculatorServiceTests {
     @Test
     void invalidOperationTest() {
 
-        String operation = "invalid";
-        BigDecimal a = new BigDecimal(5);
-        BigDecimal b = new BigDecimal(3);
-        CalculationRequest request = new CalculationRequest();
-        request.setOperation(operation);
-        request.setA(a);
-        request.setB(b);
+        request.setOperation("invalid");
 
         assertThrowsExactly(IllegalArgumentException.class, () -> calculatorService.calculate(request));
 
