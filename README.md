@@ -16,10 +16,14 @@ It contains three modules:
 The project uses Docker and Docker Compose for containerization and orchestration. It also uses Gradle as the build
 tool.
 
-1. Clone the project:
+1. Clone the project and navigate to the root directory:
    ```bash
    git clone https://github.com/rnribeiro/wit-challenge.git
    ```
+   
+    ```bash
+    cd wit-challenge
+    ```
 
 2. To build the project, run the following command in the root directory of the project:
    ```bash
